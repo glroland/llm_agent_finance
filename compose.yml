@@ -1,0 +1,62 @@
+services:
+  ollama-container:
+      build:
+        context: .
+        dockerfile: ./Containerfile.ollama
+      container_name: ollama-container
+      ports:
+        - "11434:11434"
+      volumes:
+          # - ./ollama/ollama:/root/.ollama
+          - ./entrypoint.sh:/entrypoint.sh
+      entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+      env_file:
+        - .env
+      networks:
+        - db
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:11434"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+        start_period: 5s
+  chroma-db:
+    build:
+      context: .
+      dockerfile: ./Containerfile.chroma
+    container_name: chroma-db
+    ports:
+      - "8000:8000"
+    networks:
+      - db
+    environment:
+      - CHROMA_PERSIST_DIRECTORY=/data #this gets used to find the data saved in volume
+      #and must be correct. Not same location as .env.
+      - CHROMA_COLLECTION_NAME=financial_reports
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+    volumes:
+      - ./assets/chroma:/data
+    healthcheck:
+      test: [ "CMD", "/bin/bash", "-c", "cat < /dev/null > /dev/tcp/localhost/8000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: ./Containerfile.streamlit
+    container_name: streamlit-app
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    networks:
+      - db
+    depends_on:
+      chroma-db:
+        condition: service_healthy
+
+networks:
+  db:
+    driver: bridge

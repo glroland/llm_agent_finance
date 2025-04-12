@@ -1,0 +1,23 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: streamlit-route
+  namespace: rag-finance-demo
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: streamlit-route-rag-finance-demo.apps.cluster-6dff9.6dff9.sandbox2295.opentlc.com
+  path: /
+  to:
+    kind: Service
+    name: streamlit-app
+    weight: 100
+  port:
+    targetPort: '8501'
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: streamlit-route-rag-finance-demo.apps.cluster-6dff9.6dff9.sandbox2295.opentlc.com
+      routerName: default
+      wildcardPolicy: None
+      routerCanonicalHostname: router-default.apps.cluster-6dff9.6dff9.sandbox2295.opentlc.com

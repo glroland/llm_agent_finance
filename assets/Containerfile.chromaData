@@ -1,0 +1,14 @@
+# Use a base image that suits your needs (e.g., Alpine, Debian, etc.)
+FROM busybox:1.35-uclibc
+
+# Create the data directory
+RUN mkdir -p /assets
+
+# Copy the chroma directory contents directly to /data (not to a subdirectory)
+COPY ./chroma /assets
+
+# Set proper permissions
+RUN chmod -R 755 /assets
+
+# Keep the image simple, no need to run any service here
+CMD ["true"]

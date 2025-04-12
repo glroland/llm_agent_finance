@@ -1,0 +1,18 @@
+FROM ollama/ollama
+
+RUN useradd -m -u 1001 appuser
+
+WORKDIR /app
+
+ENV OLLAMA_DIR=/app/.ollama
+
+RUN mkdir -p /app/.ollama && chown -R appuser:appuser /app/.ollama
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl ca-certificates && rm -rf /var/lib/apt/lists/*
+
+RUN chmod -R a+rX /app
+
+USER 1001
+
+CMD ["ollama", "serve"]

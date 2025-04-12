@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  entrypoint.sh: "#!/bin/bash\n\n# Load environment variables\nsource .env\n\n# Start Ollama in the background.\n/bin/ollama serve &\n# Record Process ID.\npid=$!\n\n# Pause for Ollama to start.\nsleep 5\n\n# Retrieve the model defined in the .env file (default to tinyllama if not set)\necho \"\U0001F534 Retrieving model: $LLAMA_OLLAMA_LLM...\"\nollama pull \"$LLAMA_OLLAMA_LLM\"\necho \"\U0001F534 Retrieving model: $GRANITE_OLLAMA_LLM...\"\nollama pull \"$GRANITE_OLLAMA_LLM\"\necho \"\U0001F7E2 Done!\"\n\n# Wait for Ollama process to finish.\nwait $pid\n"
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: ollama-container
+  name: ollama-container-cm0

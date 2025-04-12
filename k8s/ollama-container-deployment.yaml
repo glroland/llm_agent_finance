@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yml
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: ollama-container
+  name: ollama-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ollama-container
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f compose.yml
+        kompose.version: 1.35.0 (HEAD)
+      labels:
+        io.kompose.service: ollama-container
+    spec:
+      containers:
+        - resources:
+            limits:
+              memory: 8Gi
+          command:
+            - /usr/bin/bash
+            - /entrypoint.sh
+          env:
+            - name: GRANITE_OLLAMA_LLM
+              valueFrom:
+                secretKeyRef:
+                  key: GRANITE_OLLAMA_LLM
+                  name: streamlit-secret
+            - name: LLAMA_OLLAMA_LLM
+              valueFrom:
+                secretKeyRef:
+                  key: LLAMA_OLLAMA_LLM
+                  name: streamlit-secret
+            - name: TAVILY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: TAVILY_API_KEY
+                  name: streamlit-secret
+          image: quay.io/oawofolurh/finance-agent-ollama-container
+          imagePullPolicy: Always
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - curl
+          #       - -f
+          #       - http://localhost:11434
+          #   failureThreshold: 5
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 10
+          name: ollama-container
+          ports:
+            - containerPort: 11434
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /entrypoint.sh
+              name: ollama-container-cm0
+              subPath: entrypoint.sh
+            - name: secret-volume
+              mountPath: /etc/secret-volume
+              readOnly: true
+            - name: ollama-data
+              mountPath: /.ollama
+          tty: true
+      restartPolicy: Always
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: streamlit-secret
+        - name: ollama-data
+          persistentVolumeClaim:
+            claimName: ollama-data
+        - configMap:
+            items:
+              - key: entrypoint.sh
+                path: entrypoint.sh
+            name: ollama-container-cm0
+          name: ollama-container-cm0

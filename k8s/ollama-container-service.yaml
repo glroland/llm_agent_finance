@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yml
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: ollama-container
+  name: ollama-container
+spec:
+  ports:
+    - name: "11434"
+      port: 11434
+      targetPort: 11434
+  selector:
+    io.kompose.service: ollama-container
