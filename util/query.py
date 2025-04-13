@@ -43,22 +43,7 @@ chat_history_template = ChatPromptTemplate.from_messages(
 
 
 def format_docs(docs):
-    formatted_docs = []
-    for i, doc in enumerate(docs):
-        # Extract metadata if available
-        metadata = getattr(doc, "metadata", {})
-        source = metadata.get("source", "Unknown source")
-        page = metadata.get("page", "Unknown page")
-
-        # Format the document with metadata
-        formatted_doc = f"[Document {i+1}] "
-        if "page" in metadata:
-            formatted_doc += f"Page {page}: "
-        formatted_doc += doc.page_content
-
-        formatted_docs.append(formatted_doc)
-
-    return "\n\n" + "-" * 50 + "\n\n".join(formatted_docs) + "\n\n" + "-" * 50
+    return "\n\n".join(doc.page_content for doc in docs)
 
 
 def query_rag_streamlit(Chroma_collection, llm_model, promp_template):
@@ -81,7 +66,7 @@ def query_rag_streamlit(Chroma_collection, llm_model, promp_template):
 
     retriever = db.as_retriever(
         search_type="similarity_score_threshold",
-        search_kwargs={"score_threshold": 0.7, "k": 5},
+        search_kwargs={"score_threshold": 0.3, "k": 4},
     )
 
     context = itemgetter("question") | retriever | format_docs

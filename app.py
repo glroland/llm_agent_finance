@@ -21,8 +21,12 @@ chroma_host = os.getenv("CHROMA_HOST")
 embedding_model = embedding.init_embedding_model()
 llm = loader.init_llm("GRANITE")
 
+# llm = os.getenv("LLAMA_OLLAMA_LLM")
+# llm = Ollama(model=llm, base_url="http://ollama-container:11434")
+
 # Load data from vector db
 client = chromadb.HttpClient(host=chroma_host, port=8000)
+
 
 # # Setup Chroma DB
 db = Chroma(
@@ -43,20 +47,19 @@ with tab1:
         msgs.add_ai_message("How can I help you?")
     
     template = query.chat_history_template
-
     trimmer = trim_messages(
-    max_tokens=45,
-    strategy="last",  # keep the last few messages (most recent)
-    token_counter=llm,  # or a separate tiktoken counter if not compatible
-    include_system=True,
-    allow_partial=False,
-    start_on="human",
-)
-    
+        max_tokens=45,
+        strategy="last",
+        token_counter=llm,
+        include_system=True,
+        allow_partial=False,
+        start_on="human",
+    )
+
     chain = query.query_rag_streamlit(db, llm, template)
     chain_with_history = RunnableWithMessageHistory(
         chain,
-        lambda session_id: msgs,  # Always return the instance created earlier
+        lambda session_id: msgs,
         input_messages_key="question",
         history_messages_key="history",
         history_transformer=trimmer,

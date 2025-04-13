@@ -44,8 +44,9 @@ def init_llm(llm_family, agentic=False):
         
         vllm_params = {
             "openai_api_key": api_key, 
-            "openai_api_base": f"{api_url}/v1", 
+            "openai_api_base": f"{api_url}", 
             "model_name": vllm_model_name,
+            "http_client": httpx.Client(verify=False)
         }
         
         ollama_params = {
@@ -54,7 +55,7 @@ def init_llm(llm_family, agentic=False):
         }
         
         rag_params = { 
-            "temperature": 0.7,
+            "temperature": 0.4,
             "max_tokens": 2048,
         }
         

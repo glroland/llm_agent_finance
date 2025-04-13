@@ -4,7 +4,7 @@ RUN useradd -m -u 1001 appuser
 
 WORKDIR /app
 
-COPY requirements.txt ./requirements.txt
+COPY . .
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -23,7 +23,5 @@ RUN chmod -R a+rX /app
 USER 1001
 
 ENV EMBEDDING_MODEL="/app/models/all-MiniLM-L6-v2"
-
-COPY . .
 
 CMD ["streamlit", "run", "app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
