@@ -24,7 +24,7 @@ spec:
     spec:
       initContainers:
         - name: init-db
-          image: quay.io/rh-ee-petdavis/chroma_db_amd64
+          image: quay.io/rh-ee-petdavis/chroma_db_amd64:nbdocs
           command: 
             - /bin/sh
           args:

@@ -22,7 +22,7 @@ spec:
     spec:
       serviceAccountName: streamlit-app-secrets
       containers:
-        - image: quay.io/oawofolurh/llm-agent-finance-streamlit-app:latest
+        - image: quay.io/rh-ee-petdavis/llm-agent-finance-streamlit-amd:latest
           imagePullPolicy: Always
           name: streamlit-app
           envFrom:
