@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  name: llm_agent_finance_chroma
+  name: quay.io/rh-ee-petdavis/chroma_assets:latest
   port: 8000
   repository: nginx
   pullPolicy: IfNotPresent

@@ -1,13 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_community.llms import VLLMOpenAI
-from langchain_ollama.llms import OllamaLLM
-from langchain_community.llms import Ollama
 from operator import itemgetter
 from util import agentic
-from langchain_ollama import ChatOllama
-from langchain_openai import ChatOpenAI
 
 chat_history_template = ChatPromptTemplate.from_messages(
     [

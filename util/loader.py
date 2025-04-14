@@ -1,13 +1,11 @@
 import os
-from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain_community.llms import VLLMOpenAI
-from langchain_ollama.llms import OllamaLLM
-from langchain_community.llms import Ollama
 import sys
 import traceback
 import logging
 import httpx
+import asyncio
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -37,20 +35,23 @@ def init_llm(agentic=False):
         rag_params = { 
             "temperature": 0.7,
             "max_tokens": 2048,
-            "http_client": httpx.Client(verify=False),
         }
-        
+
         agentic_params = {
             "temperature": 0, 
             "request_timeout": 300, 
             "http_client": httpx.Client(verify=False),
         }
-        
+
+        connection_params = { 
+            "http_client": httpx.Client(verify=False),
+        }
+
         logger.info(f"vLLM model={model_name}=============\n\n\n")
         logger.info(f"vllm_params={vllm_params}\n\nrag_params={rag_params}\n\nagentic_params={agentic_params}\n\n\n")
         
         logger.info(f"Will use vLLM\n================================\n")
-        llm = ChatOpenAI(**{**vllm_params, **agentic_params} ) if agentic else VLLMOpenAI(**{**vllm_params, **rag_params} )
+        llm = ChatOpenAI(**{**vllm_params, **agentic_params, **connection_params} ) if agentic else ChatOpenAI(**{**vllm_params, **rag_params, **connection_params} )
     
         return llm
     except Exception as e:

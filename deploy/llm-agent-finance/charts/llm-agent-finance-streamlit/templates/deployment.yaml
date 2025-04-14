@@ -44,7 +44,35 @@ spec:
             - name: CHROMA_HOST
               value: "{{ .Release.Name }}-chromadb"
             - name: CHROMA_COLLECTION_NAME
-              value: "test"
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: CHROMA_COLLECTION_NAME
+            - name: CHROMA_PERSIST_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: CHROMA_PERSIST_PATH
+            - name: CHROMA_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: CHROMA_PORT
+            - name: CHUNK_SIZE
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: CHUNK_SIZE
+            - name: EMBEDDING_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: EMBEDDING_MODEL
+            - name: OVERLAP
+              valueFrom:
+                secretKeyRef:
+                  name: agentic-secret
+                  key: OVERLAP
             - name: TAVILY_API_KEY
               valueFrom:
                 secretKeyRef:

@@ -7,7 +7,6 @@ from langchain_community.chat_message_histories import (
 import chromadb
 import os
 from util import embedding, query, loader
-from langchain_community.llms import Ollama
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.messages import trim_messages
 import time
