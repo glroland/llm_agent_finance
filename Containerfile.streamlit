@@ -1,11 +1,5 @@
 FROM python:3.11.11-slim
 
-RUN useradd -m -u 1001 appuser
-
-WORKDIR /app
-
-COPY . .
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libpq-dev \
@@ -13,12 +7,20 @@ RUN apt-get update && \
         git \
     && rm -rf /var/lib/apt/lists/*
 
+RUN useradd -m -u 1001 appuser
+
+WORKDIR /app
+
+RUN chmod -R a+rX /app
+
+COPY requirements.txt .
+
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
 
 RUN python -c "from sentence_transformers import SentenceTransformer; model = SentenceTransformer('all-MiniLM-L6-v2'); model.save('/app/models/all-MiniLM-L6-v2')"
 
-RUN chmod -R a+rX /app
+COPY . .
 
 USER 1001
 

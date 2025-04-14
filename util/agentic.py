@@ -1,21 +1,11 @@
 from typing import TypedDict, Literal
-import json
-import random
 from langgraph.graph import END, StateGraph
-from langchain_core.runnables.graph import CurveStyle, MermaidDrawMethod
-from langchain_core.messages import HumanMessage
-import os
 from typing import Annotated, Literal, TypedDict
 from langgraph.graph.message import add_messages
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_openai import ChatOpenAI
 import functools
 from langgraph.prebuilt import ToolNode
-from langgraph.prebuilt import create_react_agent
-from langgraph.checkpoint.memory import MemorySaver
-from langsmith.wrappers import wrap_openai
-from langchain_ollama import ChatOllama
 from util import agentic_templates, loader
 from dotenv import load_dotenv
 load_dotenv()
@@ -41,8 +31,7 @@ google_search_tool = TavilySearchResults(max_results=5, include_answer=True, inc
 """
 The LLMs used by the agents
 """
-granite_llm = loader.init_llm("GRANITE", agentic=True)
-llama_llm = loader.init_llm("LLAMA", agentic=True)
+granite_llm = loader.init_llm(agentic=True)
 
 def create_agent(llm, tools, system_message: str):
     """

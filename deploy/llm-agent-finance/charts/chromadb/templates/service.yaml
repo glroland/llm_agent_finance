@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "llm-agent-finance.fullname" . }}
+  labels:
+    app.kubernetes.io/part-of: "{{ .Release.Name }}-llm-agent-finance"
+    {{- include "llm-agent-finance.labels" . | nindent 4 }}
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.image.port }}
+  internalTrafficPolicy: Cluster
+  type: {{ .Values.service.type }}
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: "{{ include "llm-agent-finance.fullname" . }}"
+    deployment: "{{ include "llm-agent-finance.fullname" . }}"

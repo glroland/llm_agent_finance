@@ -7,7 +7,6 @@ from langchain_community.chat_message_histories import (
 import chromadb
 import os
 from util import embedding, query, loader
-from langchain_community.llms import Ollama
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.messages import trim_messages
 import time
@@ -19,13 +18,10 @@ load_dotenv()
 chroma_collection_name = os.getenv("CHROMA_COLLECTION_NAME")
 chroma_host = os.getenv("CHROMA_HOST")
 embedding_model = embedding.init_embedding_model()
-llm = loader.init_llm("GRANITE")
-
-# llm = os.getenv("LLAMA_OLLAMA_LLM")
-# llm = Ollama(model=llm, base_url="http://ollama-container:11434")
+llm = loader.init_llm()
 
 # Load data from vector db
-client = chromadb.HttpClient(host=chroma_host, port=8000)
+client = chromadb.HttpClient(host=chroma_host, port=os.getenv("CHROMA_PORT"))
 
 
 # # Setup Chroma DB
