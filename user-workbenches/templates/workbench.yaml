@@ -31,7 +31,8 @@ kind: Notebook
 metadata:
   annotations:
     notebooks.opendatahub.io/inject-oauth: "true"
-    notebooks.opendatahub.io/last-image-selection: 'lang-chain'
+    opendatahub.io/image-display-name: lang-chain
+    notebooks.opendatahub.io/last-image-selection: 'lang-chain:latest'
     notebooks.opendatahub.io/last-size-selection: Small
     openshift.io/description: "Workbench with the notebook in place"
     openshift.io/display-name: {{ .Release.Name }}-workbench
@@ -72,7 +73,7 @@ spec:
             --ServerApp.base_url=/notebook/{{ .Release.Namespace }}/{{ .Release.Name }}-workbench
             --ServerApp.quit_button=False
         - name: JUPYTER_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/lang-chain
+          value: image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/lang-chain:latest
         - name: PIP_CERT
           value: /etc/pki/tls/custom-certs/ca-bundle.crt
         - name: REQUESTS_CA_BUNDLE
@@ -83,7 +84,7 @@ spec:
           value: /etc/pki/tls/custom-certs/ca-bundle.crt
         - name: GIT_SSL_CAINFO
           value: /etc/pki/tls/custom-certs/ca-bundle.crt
-        image: image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/lang-chain
+        image: image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/lang-chain:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
