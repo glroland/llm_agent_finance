@@ -1,0 +1,4 @@
+apiVersion: v2
+name: hackathon-namespace
+version: 1.0.0
+description: Template for spinning up the hackathon in its own namespace
