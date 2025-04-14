@@ -7,6 +7,7 @@ from langchain_community.llms import Ollama
 import sys
 import traceback
 import logging
+import httpx
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -15,18 +16,6 @@ logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
 logger.addHandler(handler)
 
-
-
-# def init_llm(api_url, api_key, model_name):
-
-#     llm = VLLMOpenAI(
-#         openai_api_key=api_key,
-#         openai_api_base=api_url + "/v1",
-#         model_name=model_name,
-#         temperature=0.7,
-#         max_tokens=2048,
-#     )
-#     return llm
 
 def init_llm(llm_family, agentic=False):
     """

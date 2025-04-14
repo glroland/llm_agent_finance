@@ -5,6 +5,7 @@ services:
         dockerfile: ./Containerfile.ollama
         platforms:
           - "linux/amd64"
+          - "linux/arm64"
       container_name: ollama-container
       ports:
         - "11434:11434"
@@ -28,6 +29,7 @@ services:
       dockerfile: ./Containerfile.chroma
       platforms:
         - "linux/amd64"
+        - "linux/arm64"
     container_name: chroma-db
     ports:
       - "8000:8000"
@@ -52,6 +54,7 @@ services:
       dockerfile: ./Containerfile.streamlit
       platforms:
         - "linux/amd64"
+        - "linux/arm64"
     container_name: streamlit-app
     ports:
       - "8501:8501"

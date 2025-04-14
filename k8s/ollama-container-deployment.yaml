@@ -45,7 +45,7 @@ spec:
                 secretKeyRef:
                   key: TAVILY_API_KEY
                   name: streamlit-secret
-          image: quay.io/rh-ee-petdavis/llm-agent-finance-ollama-amd:latest
+          image: quay.io/rh-ee-petdavis/finance-agent-ollama-container
           imagePullPolicy: Always
           # livenessProbe:
           #   exec:
