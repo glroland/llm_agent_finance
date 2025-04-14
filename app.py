@@ -35,6 +35,28 @@ db = Chroma(
 
 st.title("Financial Analysis Assistant")
 
+st.title("Financial Analysis Assistant")
+
+st.subheader("Supporting documents", divider=True)
+text='''The following documents from the Neuberger Berman website were used to populate the RAG grounding dataset.
+Try asking the chatbot questions related to these documents.    
+
+    1. Fixed Income Investment Outlook 1Q 2025    
+    2. 2025 Summary of Material Changes to Proxy Voting Guidelines  
+    3. Asset Allocation Committee Outlook 1Q 2025  
+    4. Firm Stakeholder Metrics  
+    5. Proxy Policy Procedures  
+    6. Net-Zero Alignment: Beyond the Numbers  
+    7. Solving for 2025  
+    8. Equity Market Outlook 2Q 2025  
+    9. The State of Decarbonization 2024  
+    10. 2023 Neuberger Berman Group TCFD Report    
+    11. 2023 Annual Report    
+    12. 2023 Stewardship and Sustainability Report
+    '''
+st.markdown(text)
+st.divider()
+
 msgs = StreamlitChatMessageHistory(key="special_app_key")
 
 if len(msgs.messages) == 0:
