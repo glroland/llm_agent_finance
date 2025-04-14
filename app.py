@@ -19,7 +19,7 @@ load_dotenv()
 chroma_collection_name = os.getenv("CHROMA_COLLECTION_NAME")
 chroma_host = os.getenv("CHROMA_HOST")
 embedding_model = embedding.init_embedding_model()
-llm = loader.init_llm("GRANITE")
+llm = loader.init_llm()
 
 # llm = os.getenv("LLAMA_OLLAMA_LLM")
 # llm = Ollama(model=llm, base_url="http://ollama-container:11434")
