@@ -24,8 +24,10 @@ chat_history_template = ChatPromptTemplate.from_messages(
             1. Prioritize any returned context when answering the user's question.
             2. If the question is unclear or ambiguous, ask for clarification before responding.
             3. Do not respond with or engage in foul language, inappropriate content, or material that is hurtful, harmful, or offensive.
-            4. Do not include conversation history, internal reasoning, or previous responses in the output.
-            5. Be concise, but ensure your response is thoughtful and complete.
+            4. If the context contains financial data, cite specific figures, percentages, and trends.
+            5. When referencing information, always place the citation at the end of the relevant statement, and include the document and page number if available.
+            6. Do not include conversation history, internal reasoning, or previous responses in the output.
+            7. Be concise, but ensure your response is thoughtful and complete.
 
             Remember: Accuracy is critical when discussing financial information.""",
                     ),
