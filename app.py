@@ -40,6 +40,7 @@ msgs = StreamlitChatMessageHistory(key="special_app_key")
 if len(msgs.messages) == 0:
     msgs.add_ai_message("How can I help you?")
 
+
 template = query.chat_history_template
 trimmer = trim_messages(
     max_tokens=45,
@@ -67,7 +68,7 @@ if prompt := st.chat_input(key='rag'):
 
     try:
         config = {"configurable": {"session_id": "any"}}
-        response = chain_with_history.invoke({"question": prompt}, config)
-        st.chat_message("ai").write(response)
+        response = chain_with_history.stream({"question": prompt}, config)
+        st.chat_message("ai").write_stream(response)
     except Exception as e:
         st.write(f"Error generating response: {str(e)}")
