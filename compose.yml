@@ -39,7 +39,7 @@ services:
       - CHROMA_PERSIST_DIRECTORY=/data #this gets used to find the data saved in volume
       #and must be correct. Not same location as .env.
       - CHROMA_COLLECTION_NAME=financial_reports
-      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - EMBEDDING_MODEL=all-mpnet-base-v2
     volumes:
       - ./assets/chroma:/data
     healthcheck:
