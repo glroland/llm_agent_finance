@@ -9,7 +9,7 @@ __pycache__/
 ollama/
 
 # data
-assets/chroma/
+assets/
 
 # database
 db/
