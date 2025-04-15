@@ -32,10 +32,18 @@ db = Chroma(
     collection_metadata={"hnsw:space": "cosine"},
 )
 
-
 st.title("Financial Analysis Assistant")
-
-st.title("Financial Analysis Assistant")
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 st.subheader("Supporting documents", divider=True)
 text='''The following documents from the Neuberger Berman website were used to populate the RAG grounding dataset.
@@ -61,6 +69,7 @@ msgs = StreamlitChatMessageHistory(key="special_app_key")
 
 if len(msgs.messages) == 0:
     msgs.add_ai_message("How can I help you?")
+
 
 template = query.chat_history_template
 trimmer = trim_messages(
@@ -89,7 +98,7 @@ if prompt := st.chat_input(key='rag'):
 
     try:
         config = {"configurable": {"session_id": "any"}}
-        response = chain_with_history.invoke({"question": prompt}, config)
-        st.chat_message("ai").write(response)
+        response = chain_with_history.stream({"question": prompt}, config)
+        st.chat_message("ai").write_stream(response)
     except Exception as e:
         st.write(f"Error generating response: {str(e)}")

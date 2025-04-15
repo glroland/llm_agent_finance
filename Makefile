@@ -1,4 +1,7 @@
-version ?= 10
+version ?= 17
+
+clean:
+	rm -rf target
 
 install:
 	pip install -r requirements.txt
@@ -13,3 +16,9 @@ push:
 	podman tag llm_agent_finance_streamlit:latest quay.io/glroland/llm_agent_finance_streamlit:$(version)
 	podman push quay.io/glroland/llm_agent_finance_streamlit:$(version) --tls-verify=false
 
+stress: clean
+	mkdir -p target/jmeter_report
+	jmeter -n -t deploy/jmeter_stress_tests.jmx -l target/jmeter_results.log -e -o target/jmeter_report
+
+chat:
+	streamlit run app.py --server.port=8501 --server.address=0.0.0.0
