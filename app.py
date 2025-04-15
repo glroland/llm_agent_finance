@@ -32,10 +32,18 @@ db = Chroma(
     collection_metadata={"hnsw:space": "cosine"},
 )
 
-
 st.title("Financial Analysis Assistant")
-
-st.title("Financial Analysis Assistant")
+st.markdown("""
+    <style>
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
+    </style>
+""", unsafe_allow_html=True)
 
 st.subheader("Supporting documents", divider=True)
 text='''The following documents from the Neuberger Berman website were used to populate the RAG grounding dataset.
