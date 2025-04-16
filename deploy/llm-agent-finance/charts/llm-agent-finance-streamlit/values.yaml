@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 1
 
 image:
   name: llm_agent_finance_streamlit
@@ -16,11 +16,11 @@ ingress:
 
 resources: 
   limits:
-    cpu: 2000m
-    memory: 1Gi
+    cpu: 4000m
+    memory: 2Gi
   requests:
-    cpu: 2000m
-    memory: 1Gi
+    cpu: 4000m
+    memory: 2Gi
 
 autoscaling:
   enabled: false
